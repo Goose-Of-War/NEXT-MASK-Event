@@ -1,0 +1,35 @@
+.logo {
+	height: 100%;
+	width: max-content;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	color: var(--white);
+	font-size: min(25px, 5vw);
+}
+
+.logo > img {
+	object-fit: contain;
+	max-height: min(70px, 12vw);
+}
+
+.logo > p {
+	margin: auto min(2vw, 20px);
+}
+
+#register {
+	display: block;
+	background-color: var(--red);
+	color: var(--black-100);
+	font-size: min(25px, 4vw);
+	padding: 12px;
+	border: 0px;
+	box-shadow: inset -1px -1px 3px 1px var(--black-100);
+}
+
+#register:hover {
+	background-color: var(--black-050);
+	color: var(--red);
+	box-shadow: 1px 1px 5px 2px var(--red);
+}

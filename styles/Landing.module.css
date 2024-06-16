@@ -1,0 +1,85 @@
+#countdown-card {
+	margin: 20px auto;
+	padding: 20px;
+	background-color: var(--black-075);
+
+	width: max(20vw, 300px);
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	color: var(--white);
+	font-size: 22px;
+}
+
+#countdown {
+	text-shadow: 0px 0px 6px #FF2B2B;
+	color: var(--red);
+	font-size: 40px;
+	margin: 5px;
+	font-family: 'Digital Numbers';
+}
+
+#countdown-card img {
+	width: 25px;
+	height: 25px;
+}
+
+#main-content {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+
+	margin: auto;
+}
+
+#description {
+	margin: 20px auto;
+	padding: 15px 3vw;
+	background-color: var(--black-075);
+
+	width: min(85vw, calc(100px + 42vw));
+
+	font-size: 20px;
+}
+
+#button-container {
+	margin: 20px auto;
+	padding: 15px 3vw;
+	background-color: var(--black-025);
+
+	width: min(85vw, calc(80px + 10vw));
+	height: max-content;
+
+	font-size: 20px;
+
+	display: flex;
+	flex-direction: column;
+	/* justify-content: space-between; */
+}
+
+#button-container a {
+	display: block;
+	background-color: var(--black-100);
+	color: var(--red);
+	text-decoration: none;
+	text-align: center;
+	
+	font-size: 24px;
+	padding: 12px;
+	border: 0px;
+
+	width: 90%;
+	margin: 10px auto;
+
+	box-shadow: inset -1px -1px 3px 1px var(--red);
+}
+
+#button-container button:hover {
+	text-shadow: 0px 0px 4px #ca2727;
+	color: var(--red);
+	box-shadow: 1px 1px 5px 2px var(--red);
+}

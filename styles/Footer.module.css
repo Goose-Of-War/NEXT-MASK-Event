@@ -1,0 +1,27 @@
+#main-link {
+	font-size: min(20px, 4vw);
+}
+
+#main-link a {
+	color: var(--red);
+}
+
+#main-link a:hover {
+	color: var(--white);
+}
+
+#social-links {
+	display: flex;
+	flex-direction: row;
+}
+
+.social-link * {
+	display: block;
+	height: min(50px, 8vw);
+	text-decoration: none;
+	color: var(--red);
+}
+
+.social-link:hover * {
+	color: var(--white);
+}
