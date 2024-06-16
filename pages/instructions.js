@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import InstructionField from "@/components/quiz/InstructionField";
+import InstructionField from "@/components/live/InstructionField";
 
 export default function Instructions() {
 	return (
