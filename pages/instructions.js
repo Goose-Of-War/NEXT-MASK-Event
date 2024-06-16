@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import InstructionField from "@/components/live/InstructionField";
+import InstructionField from "@/components/live/utils/InstructionField";
 
 export default function Instructions() {
 	return (
