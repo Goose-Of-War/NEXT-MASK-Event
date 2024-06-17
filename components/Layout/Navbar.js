@@ -1,18 +1,18 @@
-import styles from '@/styles/Navbar.module.css';
 import { Inter } from 'next/font/google';
+import Link from 'next/link';
 
-const inter = Inter({ subsets: ['latin'], display: 'swap' });
+import styles from '@/styles/Navbar.module.css';
 
 export default function Navbar () {
 	return (
 		<nav>
-			<div className={styles['logo']}>
+			<Link href='/' className={styles['logo']}>
 				<img src="logo.webp" />
-				<p className={inter.className}>
-					Manga and Anime <br />
-					Society Kharagpur
+				<p>
+					Open Campus <br />
+					Anime Quiz
 				</p>
-			</div>
+			</Link>
 			<div className={styles['logo']}>
 				<button children={'Register'} id={styles['register']} />
 			</div>

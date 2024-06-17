@@ -30,18 +30,18 @@ export default function LivePage () {
 		setQuestion({
 			no: 44,
 			title: 'Odd One Out: 4',
-			type: 'mcq',
+			type: 'text',
 			options: 'Naruto Luffy Goku Ichigo'.split(' ')
 		});
-		setTimeleft(10);
+		setTimeleft(20);
 		setCurrentState('attempting');
 	}
 
-	const submitAnswer = ({ timeout }) => {
+	const submitAnswer = (arg) => {
 		setAnswer(undefined);
 		setTimeleft(0);
 		setQuestion(null);
-		setCurrentState(timeout ? 'timeout' : 'attempted');
+		setCurrentState(arg?.timeout ? 'timeout' : 'submitted');
 	};
 
 	useMemo(() => {
@@ -92,7 +92,7 @@ export default function LivePage () {
 				setRenderComponent(
 					<SubmittedMessage />
 				);
-				setCompTimeout(setTimeout(() => setCurrentState('waiting'), 5_000));
+				setCompTimeout(setTimeout(() => setCurrentState('waiting'), 3_000));
 				break;
 			case 'late':
 				setRenderComponent(

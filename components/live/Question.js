@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import MessageCard from "./utils/MessageCard";
 
 import styles from '@/styles/Quiz.module.css';
-import MCQOption from "./utils/MCQOption";
+import OptionField from "./utils/OptionField";
+import InputField from "./InputField";
 
 export default function Question ({ question, timeLeft, updateAnswer, submitAnswer }) {
 	const [time, setTime] = useState(timeLeft);
@@ -21,11 +22,13 @@ export default function Question ({ question, timeLeft, updateAnswer, submitAnsw
 			<div className={styles['attempt-field']}>
 				{
 					question.type === 'mcq' ?
-					question.options.map((val, ind) => <MCQOption option={'ABCD'[ind]} value={val} effect={() => updateAnswer(ind + 1)} />)
-					: ''
+					<OptionField options={question.options} updateFunction={option => updateAnswer(option)} />
+					: <InputField updateFunction={value => updateAnswer(value)} submitFunction={submitAnswer} />
 				}
 			</div>
-			<div></div>
+			<div className={styles['submit-field']}>
+				<button className="light" onClick={submitAnswer}> Submit </button>
+			</div>
 		</div>
 	);
 	

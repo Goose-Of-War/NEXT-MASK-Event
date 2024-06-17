@@ -79,6 +79,8 @@
 }
 
 #button-container a:hover {
-	text-shadow: 0px 0px 4px #ca2727;
-	box-shadow: 1px 1px 5px 2px var(--red);
+	background-color: var(--white);
+	color: var(--black-100);
+	text-shadow: 0px 0px 2px var(--black-075);
+	box-shadow: inset 1px 1px 5px 2px var(--black-100);
 }

@@ -6,7 +6,7 @@ export default function Instructions() {
 	return (
 		<>
 			<Head>
-				<title> Instructions - OCAQ'24 </title>
+				<title> {`Instructions - OCAQ'24`} </title>
 			</Head>
 			<InstructionField title={'Instructions'}>
 				<ul>
@@ -24,7 +24,7 @@ export default function Instructions() {
 						</ol>
 					</li>
 					<li> Once they are all done, all you will have to do is let them read </li>
-					<li> This shit is more optimized for desktop/lanscape displays BTW. Can't guarantee how good it will be in mobile devices. </li>
+					<li> This shit is more optimized for desktop/lanscape displays BTW. I cannot guarantee how good it will be in mobile devices. </li>
 				</ul>
 				<br />
 				For more information, contact us.

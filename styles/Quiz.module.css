@@ -94,3 +94,29 @@
 	color: var(--black-100);
 	height: max-content;
 }
+
+.mcq-option.selected, .mcq-option:hover {
+	background-color: var(--black-100);
+}
+
+.mcq-option.selected>.option, .mcq-option:hover>.option {
+	background-color: var(--red);
+	text-shadow: 0px 0px 6px var(--black-075);
+	color: var(--black-100);
+}
+
+.mcq-option.selected>.value, .mcq-option:hover>.value {
+	color: var(--white);
+	text-shadow: 0px 0px 6px white;
+
+}
+
+.input-field {
+	width: min(max(min(70vw, 200px), 40vw), 400px);
+	font-size: min(5vw, 30px);
+	color: var(--black-100);
+}
+
+.input-field::placeholder {
+	color: var(--black-075);
+}
