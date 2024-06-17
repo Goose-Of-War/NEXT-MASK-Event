@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 
 import InstructionField from "@/components/live/utils/InstructionField";
 
@@ -27,7 +28,9 @@ export default function Instructions() {
 					<li> This shit is more optimized for desktop/lanscape displays BTW. I cannot guarantee how good it will be in mobile devices. </li>
 				</ul>
 				<br />
-				For more information, contact us.
+				For more information, <Link href={'/contact'}>contact us</Link>.
+
+				<button className="light"><Link href={'/'} style={{ color: 'var(--black-100)', textDecoration: 'none' }}> Go Back </Link></button>
 			</InstructionField>
 		</>
 	);

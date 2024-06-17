@@ -26,6 +26,14 @@
 	font-family: 'Jura';
 }
 
+a, a:visited {
+	color: var(--red);
+}
+
+a:hover {
+	color: var(--white) !important;
+}
+
 body {
 	width: 100vw;
 
