@@ -8,7 +8,7 @@ export default function ButtonArray () {
 			<Link href="/instructions"> Instructions </Link>
 			<Link href="/live"> Quiz Portal </Link>
 			<Link href="https://kgpmask.club"> Main Website </Link>
-			<Link href="/"> Contact Us </Link>
+			<Link href="/contact"> Contact Us </Link>
 		</div>
 	);
 }
