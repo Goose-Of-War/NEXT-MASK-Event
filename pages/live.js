@@ -27,13 +27,14 @@ export default function LivePage () {
 
 	const startQuestion = () => {
 		if (currentState !== 'waiting') return;
+		const type = Math.random() > 0.5 ? 'mcq' : 'text';
 		setQuestion({
 			no: 44,
 			title: 'Odd One Out: 4',
-			type: 'text',
+			type,
 			options: 'Naruto Luffy Goku Ichigo'.split(' ')
 		});
-		setTimeleft(20);
+		setTimeleft(type === 'mcq' ? 10 : 20);
 		setCurrentState('attempting');
 	}
 

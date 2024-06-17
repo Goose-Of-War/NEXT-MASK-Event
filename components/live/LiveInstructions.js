@@ -6,8 +6,9 @@ export default function LiveInstructions ({ buttonCallback }) {
 	return (<InstructionField title={ 'Open Campus Anime Quiz - 2024' }>
 		<ul>
 			<li> Again, instructions will be shared in a bullet list like in the <Link href='/instructions'> instructions </Link> page. </li>
+			<li> For now, click on the button on the top [Question Time] when the screen shows "Waiting for the quizmaster" to attempt a question </li>
 			<li>
-				You can list the different types of questions like this:
+				There are two types of questions:
 				<ol>
 					<li>
 						MCQ Type:
@@ -31,7 +32,7 @@ export default function LiveInstructions ({ buttonCallback }) {
 					</li>
 				</ol>
 			</li>
-			<li> Once you have shared all instructions, you can just place the button to start the quiz. </li>
+			<li> Once you have read all the instructions, you can just click the button below to start the quiz. </li>
 		</ul>
 		<br />
 		Ganbatte!!! All the best!!!
