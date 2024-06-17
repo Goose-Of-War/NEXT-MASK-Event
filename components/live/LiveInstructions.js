@@ -6,7 +6,7 @@ export default function LiveInstructions ({ buttonCallback }) {
 	return (<InstructionField title={ 'Open Campus Anime Quiz - 2024' }>
 		<ul>
 			<li> Again, instructions will be shared in a bullet list like in the <Link href='/instructions'> instructions </Link> page. </li>
-			<li> For now, click on the button on the top [Question Time] when the screen shows "Waiting for the quizmaster" to attempt a question </li>
+			<li> {'For now, click on the button on the top [Question Time] when the screen shows "Waiting for the quizmaster" to attempt a question'} </li>
 			<li>
 				There are two types of questions:
 				<ol>
