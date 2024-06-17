@@ -1,10 +1,11 @@
+import Link from "next/link";
 import InstructionField from "./utils/InstructionField";
 
 
 export default function LiveInstructions ({ buttonCallback }) {
 	return (<InstructionField title={ 'Open Campus Anime Quiz - 2024' }>
 		<ul>
-			<li> Again, instructions will be shared in a bullet list like in the <a href='/instructions'> instructions </a> page. </li>
+			<li> Again, instructions will be shared in a bullet list like in the <Link href='/instructions'> instructions </Link> page. </li>
 			<li>
 				You can list the different types of questions like this:
 				<ol>

@@ -14,7 +14,7 @@ export default function Navbar () {
 				</p>
 			</Link>
 			<div className={styles['logo']}>
-				<button children={'Register'} id={styles['register']} />
+				<button id={styles['register']}> Register </button>
 			</div>
 		</nav>
 	);
