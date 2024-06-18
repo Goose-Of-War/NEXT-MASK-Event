@@ -39,6 +39,8 @@ export default function LivePage () {
 	}
 
 	const submitAnswer = (arg) => {
+		clearTimeout(compTimeout);
+		setCompTimeout(null);
 		setAnswer(undefined);
 		setTimeleft(0);
 		setQuestion(null);
@@ -46,13 +48,12 @@ export default function LivePage () {
 	};
 
 	useMemo(() => {
+		if (currentState !== 'attempting') return setTimeleft(0);
 		if (timeleft) {
-			const timeout = setTimeout(() => setTimeleft(timeleft - 1), 1_000);
-			return () => clearTimeout(timeout);
+			setCompTimeout(setTimeout(() => console.log({timeleft}) || timeleft && setTimeleft((timeleft || 1) - 1), 1_000));
+			return () => clearTimeout(compTimeout);
 		}
-		if (currentState === 'attempting') {
-			submitAnswer({timeout: true});
-		}
+		submitAnswer({timeout: true});
 	}, [timeleft])
 
 	useMemo(() => {
@@ -83,6 +84,7 @@ export default function LivePage () {
 				);
 				break;
 			case 'timeout':
+				clearTimeout(compTimeout);
 				setRenderComponent(
 					<TimeoutMessage />
 				)
