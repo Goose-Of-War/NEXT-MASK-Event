@@ -21,6 +21,7 @@ export default function LogoutPage() {
 			console.log(await response.text());
 			localStorage.removeItem('username');
 			localStorage.removeItem('name');
+			localStorage.removeItem('is-admin');
 			alert('Successfully logged out');
 			router.push('/');
 		} catch (err) {

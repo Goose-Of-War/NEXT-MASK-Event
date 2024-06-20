@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const questionSchema = new mongoose.Schema({
 	quizId: { type: String, required: true, default: 'OCAQ-2024' },
