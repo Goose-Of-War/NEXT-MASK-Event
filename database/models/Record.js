@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const recordSchema = new mongoose.Schema({
 	userId: { type: String, required: true },
 	quizId: { type: String, required: true, default: 'OCAQ-2024' },
-	QuestionNo: { type: Number, required: true },
+	questionNo: { type: Number, required: true },
 	response: String
 }, { collection: 'records' });
 

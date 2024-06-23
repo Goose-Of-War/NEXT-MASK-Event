@@ -18,7 +18,7 @@ export default function Navbar () {
 	return (
 		<nav>
 			<Link href='/' className={styles['logo']}>
-				<img src="logo.webp" />
+				<img src="/logo.webp" />
 				<p>
 					Open Campus <br />
 					Anime Quiz

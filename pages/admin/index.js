@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import AuthForm from "@/components/AuthForm";
 import ForbiddenCard from "@/components/admin/ForbiddenCard";
+import AdminContent from "@/components/admin/AdminContent";
 
 export default function AdminPage () {
 	const [hasChecked, setHasChecked] = useState(false);
@@ -27,9 +28,9 @@ export default function AdminPage () {
 
 	if (!isAdmin) return <ForbiddenCard />;
 
-	return (<AuthForm heading={'Admin Portal'}>
+	return (<AdminContent title={'Admin Portal'}>
 		<button onClick={() => router.push('/admin/list-users')}> Users Portal </button>
 		<button onClick={() => router.push('/admin/quiz-portal')}> Quiz Portal </button>
 		{/* <button onClick={() => router.push('/admin/')}>  </button> */}
-	</AuthForm>);
+	</AdminContent>);
 }
