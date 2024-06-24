@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
-import Session from './Session';
+import Session from './Session.js';
+import connectToDb from '../connect.js';
 
 const userSchema = new mongoose.Schema({
 	_id: { type: String, required: true },
@@ -16,6 +17,7 @@ const User = mongoose.models.User || mongoose.model('User', userSchema);
 export default User;
 
 export async function getUserFromSession (sessionId) {
+	await connectToDb();
 	const user = User.findById((await Session.findById(sessionId))?.userId);
 	return user;
 }

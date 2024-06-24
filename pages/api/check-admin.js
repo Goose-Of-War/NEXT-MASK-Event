@@ -1,9 +1,12 @@
+import connectToDb from "@/database/connect";
 import { getUserFromSession } from "@/database/models/User";
 
 export default async function checkAdminHandler (req, res) {
+	if (req.cookies.isAdmin) return res.status(201).send(req.cookies.isAdmin);
 	// Session needed to perform stuff
 	if (!req.cookies.sessionId) return res.status(403).send('Forbidden resource.');
 	// Valid session needed to perform stuff
+	await connectToDb();
 	const user = await getUserFromSession(req.cookies.sessionId);
 	if (!user) return res.status(403).send('Forbidden resource.');
 	// Set if true or false

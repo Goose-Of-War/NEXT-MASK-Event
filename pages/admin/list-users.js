@@ -15,9 +15,13 @@ export default function ListUsersPage () {
 	useMemo(async () => {
 		if (!hasChecked) {
 			if (!localStorage.getItem('username')) return setIsAdmin(false);
-			const response = eval(await (await fetch('/api/check-admin')).text());
-			localStorage.setItem('is-admin', response);
-			setIsAdmin(response);
+			try {
+				const response = eval(await (await fetch('/api/check-admin')).text());
+				localStorage.setItem('is-admin', response);
+				setIsAdmin(response);
+			} catch (err) {
+				console.log(err);
+			}
 		} else {
 			setIsAdmin(eval(localStorage.getItem('is-admin') || 'false'));
 		}

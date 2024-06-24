@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import connectToDb from '../connect';
+
 const questionSchema = new mongoose.Schema({
 	quizId: { type: String, required: true },
 	questionNo: { type: Number, required: true },
@@ -15,6 +17,6 @@ const Question = mongoose.models.Question || mongoose.model('Question', question
 export default Question;
 
 export async function fetchQuestionsOfQuiz () {
-	console.log(process.env.QUIZ_ID);
+	await connectToDb();
 	return await Question.find({ quizId: process.env.QUIZ_ID }).lean().sort({ questionNo: 'asc' });
 }
