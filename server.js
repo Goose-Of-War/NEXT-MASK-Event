@@ -24,7 +24,10 @@ app.prepare().then(async () => {
 		console.log('Connection count:', io.engine.clientsCount);
 		socket.join(process.env.QUIZ_ID);
 
-		socket.on('question', question => console.log(question) || io.to(process.env.QUIZ_ID).emit('question', question));
+		socket.on('question', question => {
+			io.to(process.env.QUIZ_ID).emit('question', question);
+			setTimeout(() => io.to(process.env.QUIZ_ID).emit('timeout'), question.type === 'mcq' ? 11_000 : 21_000);
+		});
 	});
 
 	httpServer

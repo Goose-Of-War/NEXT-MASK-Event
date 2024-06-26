@@ -41,23 +41,33 @@ export default function LivePage () {
 
 	const startQuestion = (qn) => {
 		if (currentState !== 'waiting') return;
-		const type = qn.type || Math.random() > 0.5 ? 'mcq' : 'text';
-		setQuestion(qn.questionNo ? qn : {
-			quesionNo: 44,
-			title: 'Odd One Out: 4',
-			type,
-			options: 'Naruto Luffy Goku Ichigo'.split(' ')
-		});
+		const type = qn.type;
+		setQuestion(qn);
 		setTimeleft(type === 'mcq' ? 10 : 20);
 		setCurrentState('attempting');
 	}
 
 	const submitAnswer = (arg) => {
-		setAnswer(undefined);
-		setTimeleft(0);
-		setQuestion(null);
-		setCurrentState(arg?.timeout ? 'timeout' : 'submitted');
+		const questionNo = question.questionNo;
+		const response = answer;
+		console.log({questionNo, response});
+		fetch('/api/live/save-response', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ questionNo, response })
+		}).then(res => res.text()).then(res => {
+			console.log(res)
+			// setAnswer(undefined);
+			setTimeleft(0);
+			setQuestion(null);
+			setCurrentState(arg?.timeout ? 'timeout' : 'submitted');
+		});
 	};
+
+	const timeoutSubmit = () => {
+		if (currentState !== 'attempting') return;
+		submitAnswer({ timeout: true });
+	}
 
 	useEffect(() => {
 		// Needs to be logged in
@@ -77,6 +87,7 @@ export default function LivePage () {
 
 		socket.on('connect', onSocketConnect);
 		socket.on('disconnect', onSocketDisconnect);
+		socket.on('timeout', timeoutSubmit);
 
 		return (
 			() => {
@@ -150,6 +161,10 @@ export default function LivePage () {
 				);
 		}
 	}, [currentState]);
+
+	useMemo(() => {
+		console.log({answer});
+	}, [answer]);
 
 	return (
 		<>

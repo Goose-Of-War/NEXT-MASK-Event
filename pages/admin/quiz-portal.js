@@ -80,8 +80,14 @@ export default function QuizPortalPage () {
 
 	if (!isAdmin) return <ForbiddenCard />;
 
-	const startQuestion = question => {
-		socket.emit('question', question);
+	const startQuestion = async question => {
+		const response = await fetch('/api/live/start-question', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ questionNo: question.questionNo, type: question.type })
+		});
+		console.log(await response.text());
+		if (response.status < 400) socket.emit('question', question);
 	}
 
 	return (

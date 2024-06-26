@@ -10,3 +10,7 @@ const recordSchema = new mongoose.Schema({
 const Record = mongoose.models.Record || mongoose.model('Record', recordSchema);
 
 export default Record;
+
+export async function addMultipleRecords (records) {
+	return await Record.insertMany(records);
+}

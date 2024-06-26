@@ -6,8 +6,14 @@ export default function OptionField ({ options, updateFunction }) {
 	const [selectedOption, setSelectedOption] = useState(null);
 
 	const selectOption = option => {
-		if (selectedOption === option) setSelectedOption(null);
-		else setSelectedOption(option);
+		if (selectedOption === option) {
+			setSelectedOption(null);
+			updateFunction(null);
+		}
+		else {
+			setSelectedOption(option);
+			updateFunction(option);
+		}
 	};
 
 	// useEffect(() => {

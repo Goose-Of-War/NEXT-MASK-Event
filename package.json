@@ -26,6 +26,6 @@
 		"nodemon": "^3.1.4"
 	},
 	"nodemonConfig": {
-		"ignore": ["**/components/**", "**/database/**", "**/pages/**" ]
+		"ignore": ["**/components/**", "**/database/**", "**/pages/**", "**/utils/**" ]
 	}
 }
