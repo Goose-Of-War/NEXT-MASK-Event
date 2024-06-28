@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import EarlyLateMessage from '@/components/live/EarlyLateMessage';
 import LiveInstructions from '@/components/live/LiveInstructions';
@@ -31,7 +31,7 @@ export default function LivePage () {
 	// Time Left (mainly for quiz)
 	const [timeleft, setTimeleft] = useState(0);
 	// Solution set by user
-	const [answer, setAnswer] = useState(null);
+	const answer = useRef(null);
 	// Question fetched from socket
 	const [question, setQuestion] = useState(null);
 	// Component timeout (for message cards)
@@ -43,13 +43,14 @@ export default function LivePage () {
 		if (currentState !== 'waiting') return;
 		const type = qn.type;
 		setQuestion(qn);
+		answer.current = null;
 		setTimeleft(type === 'mcq' ? 10 : 20);
 		setCurrentState('attempting');
 	}
 
-	const submitAnswer = (arg) => {
+	const submitAnswer = useCallback((arg) => {
 		const questionNo = question.questionNo;
-		const response = answer;
+		const response = answer.current;
 		console.log({questionNo, response});
 		fetch('/api/live/save-response', {
 			method: 'POST',
@@ -62,12 +63,12 @@ export default function LivePage () {
 			setQuestion(null);
 			setCurrentState(arg?.timeout ? 'timeout' : 'submitted');
 		});
-	};
+	});
 
-	const timeoutSubmit = () => {
+	const timeoutSubmit = useCallback(() => {
 		if (currentState !== 'attempting') return;
 		submitAnswer({ timeout: true });
-	}
+	})
 
 	useEffect(() => {
 		// Needs to be logged in
@@ -130,7 +131,7 @@ export default function LivePage () {
 					<Question 
 						question={question}
 						timeLeft={timeleft}
-						updateAnswer={value => setAnswer(value)}
+						updateAnswer={value => answer.current = value}
 						submitAnswer={submitAnswer}
 					/>
 				);
@@ -161,10 +162,6 @@ export default function LivePage () {
 				);
 		}
 	}, [currentState]);
-
-	useMemo(() => {
-		console.log({answer});
-	}, [answer]);
 
 	return (
 		<>

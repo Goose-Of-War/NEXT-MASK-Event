@@ -1,0 +1,29 @@
+#main {
+	background-color: var(--black-075);
+	margin: 30px auto;
+	width: min(80vw, 800px);
+	padding: min(5vw, 50px);
+}
+
+#results {
+	overflow-x: auto;
+}
+
+#results table {
+	margin: 20px auto;
+	min-width: 100%;
+}
+
+#results thead {
+	font-size: 120%;
+}
+
+#results tbody {
+	text-align: center;
+}
+
+#results td {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 20vw;
+}

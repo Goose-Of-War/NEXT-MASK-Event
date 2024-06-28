@@ -5,7 +5,7 @@ import styles from '@/styles/Admin.module.css';
 const max = (a, b) => a > b ? a : b;
 const min = (a, b) => a < b ? a : b;
 
-export default function QuestionNavigator ({ questions, startQuestion }) {
+export default function QuestionNavigator ({ questions, startQuestion, disabled }) {
 	const [currentQ, setCurrentQ] = useState(0);
 
 	return (
@@ -23,7 +23,7 @@ export default function QuestionNavigator ({ questions, startQuestion }) {
 				</div>
 				<button className={styles['navigators']} onClick={() => setCurrentQ(min(questions.length - 1, currentQ + 1))}> {`>`} </button>
 			</div>
-			<button className="light" onClick={() => startQuestion(questions[currentQ])}> Start </button>
+			<button className="light" onClick={() => startQuestion(questions[currentQ])} disabled={disabled}> Start </button>
 		</>
 	)
 }

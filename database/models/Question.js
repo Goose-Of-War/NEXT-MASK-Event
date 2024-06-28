@@ -16,7 +16,7 @@ const Question = mongoose.models.Question || mongoose.model('Question', question
 
 export default Question;
 
-export async function fetchQuestionsOfQuiz () {
+export async function fetchQuestionsOfQuiz (quizId) {
 	await connectToDb();
-	return await Question.find({ quizId: process.env.QUIZ_ID }).lean().sort({ questionNo: 'asc' });
+	return await Question.find({ quizId: quizId || process.env.QUIZ_ID }).lean().sort({ questionNo: 'asc' });
 }

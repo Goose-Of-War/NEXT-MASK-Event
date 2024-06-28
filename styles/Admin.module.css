@@ -16,12 +16,13 @@
 	margin: 20px min(20px, 3vw);
 
 	min-width: 50vw;
-	max-width: 100%;
+	width: 75vw;
 }
 
 #question-card {
 	padding: 10px min(20px, 2vw);
 	min-width: 45vw;
+	width: 50vw;
 	min-height: 250px;
 	font-size: min(20px, 4.5vw);
 	display: flex;

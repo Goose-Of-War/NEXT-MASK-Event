@@ -21,3 +21,7 @@ export async function getUserFromSession (sessionId) {
 	const user = User.findById((await Session.findById(sessionId))?.userId);
 	return user;
 }
+
+export async function getAllUsers () {
+	return await User.find().lean();
+}

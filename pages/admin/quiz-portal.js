@@ -9,6 +9,7 @@ import socket from "@/socket";
 export default function QuizPortalPage () {
 	const [hasChecked, setHasChecked] = useState(false);
 	const [isAdmin, setIsAdmin] = useState(false);
+	const [disabled, setDisabled] = useState(false);
 
 	// Socket Connection state
 	const [socketConnected, setSocketConnected] = useState(false);
@@ -88,6 +89,13 @@ export default function QuizPortalPage () {
 		});
 		console.log(await response.text());
 		if (response.status < 400) socket.emit('question', question);
+		fetch('/api/live/start-question', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ questionNo: question.questionNo, type: question.type })
+		});
+		setDisabled(true);
+		setTimeout(() => setDisabled(false), question.type === 'mcq' ? 15_000 : 25_000);
 	}
 
 	return (
@@ -95,7 +103,7 @@ export default function QuizPortalPage () {
 			<center>Quiz in progress: <span style={{ color: 'var(--red)' }}>7357</span></center>
 			{
 				questions ? 
-				<QuestionNavigator questions={questions} startQuestion={startQuestion} /> :
+				<QuestionNavigator questions={questions} startQuestion={startQuestion} disabled={disabled} /> :
 				'Fetching questions...'
 			}
 		</AdminContent>

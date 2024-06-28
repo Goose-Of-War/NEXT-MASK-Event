@@ -14,3 +14,7 @@ export default Record;
 export async function addMultipleRecords (records) {
 	return await Record.insertMany(records);
 }
+
+export async function fetchRecordsByQuizId (quizId) {
+	return await Record.find({ quizId }).lean();
+}

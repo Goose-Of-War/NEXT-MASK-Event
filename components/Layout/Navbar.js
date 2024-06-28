@@ -10,6 +10,7 @@ export default function Navbar () {
 	const router = useRouter();
 
 	useEffect(() => {
+		if (!document.cookie) return localStorage.clear() || setUserName('');
 		const un = localStorage.getItem('username');
 		if (!un) setUserName('');
 		else setUserName(localStorage.getItem('name') || 'User');
