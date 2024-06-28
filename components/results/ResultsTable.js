@@ -12,7 +12,7 @@ export default function ResultsTable ({ results }) {
 			<tbody>
 				{
 					results.map(({ name, username, points }, index) => (
-						<tr>
+						<tr key={ username }>
 							<td>{ index + 1 }</td>
 							<td>{ name }</td>
 							<td>{ username }</td>
