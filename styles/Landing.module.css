@@ -11,7 +11,7 @@
 	justify-content: center;
 
 	color: var(--white);
-	font-size: 22px;
+	font-size: min(5.5vw, 22px);
 }
 
 #countdown {
@@ -43,7 +43,7 @@
 
 	width: min(85vw, calc(100px + 42vw));
 
-	font-size: 20px;
+	font-size: min(5vw, 20px);
 }
 
 #button-container {
@@ -68,7 +68,7 @@
 	text-decoration: none;
 	text-align: center;
 	
-	font-size: 24px;
+	font-size: min(5vw, 24px);
 	padding: 12px;
 	border: 0px;
 
