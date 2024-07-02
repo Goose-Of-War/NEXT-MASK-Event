@@ -101,13 +101,12 @@ export default function LivePage () {
 	}, []);
 
 	useMemo(() => {
+		if (currentState !== 'attempting') return setTimeleft(0);
 		if (timeleft) {
-			const timeout = setTimeout(() => setTimeleft(timeleft - 1), 1_000);
-			return () => clearTimeout(timeout);
+			setCompTimeout(setTimeout(() => console.log({timeleft}) || timeleft && setTimeleft((timeleft || 1) - 1), 1_000));
+			return () => clearTimeout(compTimeout);
 		}
-		if (currentState === 'attempting') {
-			submitAnswer({timeout: true});
-		}
+		submitAnswer({timeout: true});
 	}, [timeleft])
 
 	useMemo(() => {
