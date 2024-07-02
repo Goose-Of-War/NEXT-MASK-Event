@@ -6,8 +6,14 @@ export default function OptionField ({ options, updateFunction }) {
 	const [selectedOption, setSelectedOption] = useState(null);
 
 	const selectOption = option => {
-		if (selectedOption === option) setSelectedOption(null);
-		else setSelectedOption(option);
+		if (selectedOption === option) {
+			setSelectedOption(null);
+			updateFunction(null);
+		}
+		else {
+			setSelectedOption(option);
+			updateFunction(option);
+		}
 	};
 
 	// useEffect(() => {
@@ -19,11 +25,11 @@ export default function OptionField ({ options, updateFunction }) {
 		<>
 			{
 				options.map((val, ind) => <MCQOption
-					key={ ind }
+					key={ ind + 1 }
 					value={ val }
 					option={ 'ABCD'[ind] }
-					selected={ selectedOption === ind }
-					onClick={ () => selectOption(ind) }
+					selected={ selectedOption === ind + 1 }
+					onClick={ () => selectOption(ind + 1) }
 				/>)
 			}
 		</>

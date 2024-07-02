@@ -1,5 +1,7 @@
 import Head from 'next/head';
-import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import EarlyLateMessage from '@/components/live/EarlyLateMessage';
 import LiveInstructions from '@/components/live/LiveInstructions';
@@ -9,6 +11,8 @@ import WaitingMessage from '@/components/live/WaitingMessage';
 import TimeoutMessage from '@/components/live/TimeoutMessage';
 import Question from '@/components/live/Question';
 
+import socket from '@/socket';
+
 const LivePageHead = () => (
 	<Head>
 		<title> Live Quiz Portal </title>
@@ -17,35 +21,84 @@ const LivePageHead = () => (
 )
 
 export default function LivePage () {
-	const [currentState, setCurrentState] = useState('instructions');
+	// Socket Connection state
+	const [socketConnected, setSocketConnected] = useState(false);
+	const [socketTransport, setSocketTransport] = useState("N/A");
 	// Current States: early, instructions, waiting, attempting, timeout, submitted, late
+	const [currentState, setCurrentState] = useState('instructions');
+	// Render Component based on current state
 	const [renderComponent, setRenderComponent] = useState(<LiveInstructions />);
+	// Time Left (mainly for quiz)
 	const [timeleft, setTimeleft] = useState(0);
-	const [answer, setAnswer] = useState(null);
+	// Solution set by user
+	const answer = useRef(null);
+	// Question fetched from socket
 	const [question, setQuestion] = useState(null);
+	// Component timeout (for message cards)
 	const [compTimeout, setCompTimeout] = useState(null);
 
-	const startQuestion = () => {
+	const router = useRouter();
+
+	const startQuestion = (qn) => {
 		if (currentState !== 'waiting') return;
-		const type = Math.random() > 0.5 ? 'mcq' : 'text';
-		setQuestion({
-			no: 44,
-			title: 'Odd One Out: 4',
-			type,
-			options: 'Naruto Luffy Goku Ichigo'.split(' ')
-		});
+		const type = qn.type;
+		setQuestion(qn);
+		answer.current = null;
 		setTimeleft(type === 'mcq' ? 10 : 20);
 		setCurrentState('attempting');
 	}
 
-	const submitAnswer = (arg) => {
-		clearTimeout(compTimeout);
-		setCompTimeout(null);
-		setAnswer(undefined);
-		setTimeleft(0);
-		setQuestion(null);
-		setCurrentState(arg?.timeout ? 'timeout' : 'submitted');
-	};
+	const submitAnswer = useCallback((arg) => {
+		const questionNo = question.questionNo;
+		const response = answer.current;
+		console.log({questionNo, response});
+		fetch('/api/live/save-response', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ questionNo, response })
+		}).then(res => res.text()).then(res => {
+			console.log(res)
+			// setAnswer(undefined);
+			setTimeleft(0);
+			setQuestion(null);
+			setCurrentState(arg?.timeout ? 'timeout' : 'submitted');
+		});
+	});
+
+	const timeoutSubmit = useCallback(() => {
+		if (currentState !== 'attempting') return;
+		submitAnswer({ timeout: true });
+	})
+
+	useEffect(() => {
+		// Needs to be logged in
+		if (!localStorage.getItem('username')) router.push('/login');
+
+		const onSocketConnect = () => {
+			setSocketConnected(true);
+			setSocketTransport(socket.io.engine.transport.name);
+		}
+
+		const onSocketDisconnect = () => {
+			setSocketConnected(false);
+			setSocketTransport("N/A");
+		}
+
+		if (socket.connected) onSocketConnect();
+
+		socket.on('connect', onSocketConnect);
+		socket.on('disconnect', onSocketDisconnect);
+		socket.on('timeout', timeoutSubmit);
+		socket.on('start-quiz', () => setCurrentState('instructions'));
+		socket.on('end-quiz', () => router.push('/results'));
+
+		return (
+			() => {
+				socket.off('connect', onSocketConnect);
+				socket.off('disconnect', onSocketDisconnect);
+			}
+		)
+	}, []);
 
 	useMemo(() => {
 		if (currentState !== 'attempting') return setTimeleft(0);
@@ -69,6 +122,7 @@ export default function LivePage () {
 				);
 				break;
 			case 'waiting':
+				socket.on('question', question => startQuestion(question));
 				setRenderComponent(
 					<WaitingMessage />
 				);
@@ -78,19 +132,20 @@ export default function LivePage () {
 					<Question 
 						question={question}
 						timeLeft={timeleft}
-						updateAnswer={value => setAnswer(value)}
+						updateAnswer={value => answer.current = value}
 						submitAnswer={submitAnswer}
 					/>
 				);
 				break;
 			case 'timeout':
-				clearTimeout(compTimeout);
+				socket.listeners('question').splice(0, socket.listeners('question').length);
 				setRenderComponent(
 					<TimeoutMessage />
 				)
 				setCompTimeout(setTimeout(() => setCurrentState('waiting'), 3_000));
 				break;
 			case 'submitted':
+				socket.listeners('question').splice(0, socket.listeners('question').length);
 				clearTimeout(compTimeout);
 				setRenderComponent(
 					<SubmittedMessage />
@@ -112,7 +167,7 @@ export default function LivePage () {
 	return (
 		<>
 			<LivePageHead />
-			<button onClick={startQuestion}> Question Time </button>
+			{/* <button onClick={startQuestion}> Question Time </button> */}
 			{ renderComponent }
 		</>
 	);
