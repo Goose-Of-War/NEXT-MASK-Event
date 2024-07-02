@@ -42,7 +42,12 @@ export default function ProfilePage () {
 		const response = await fetch('/api/who-am-i');
 		if (response.status === 204) return router.push('/login');
 		const user = await response.json();
-		if (!user.username) return router.push('/login');
+		if (!user.username) {
+			localStorage.removeItem('username');
+			localStorage.removeItem('name');
+			localStorage.removeItem('is-admin');
+			return router.push('/login');
+		}
 		setUsername(user.username);
 		setName(user.name);
 		setProfilePic(user.profilePic);
