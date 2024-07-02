@@ -10,6 +10,9 @@ export default function ResultsPage () {
 
 	const fetchResults = async () => {
 		try {
+			const isAdmin = eval(await (await fetch('/api/check-admin')).text());
+			localStorage.setItem('is-admin', isAdmin);
+			if (eval(localStorage.getItem('is-admin'))) await fetch('/api/live/evaluate-results');
 			const response = await fetch ('/api/live/results');
 			if (response.status >= 400) throw await response.text();
 			const res = await response.json();
@@ -24,7 +27,7 @@ export default function ResultsPage () {
 		if (!results) fetchResults();
 	}, [results]);
 
-	if (!results) return <MessageCard message={'Results are yet to be evaluated. Try again later.'} />;
+	if (!results || !results.length) return <MessageCard message={'Results are yet to be evaluated. Try again later.'} />;
 
 	return (
 		<div id={styles['main']}>

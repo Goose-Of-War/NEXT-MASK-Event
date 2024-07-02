@@ -12,7 +12,7 @@ export default async function evaluateResultsHandler (req, res) {
 	if (!req.cookies.isAdmin) return res.status(401).send('Unauthorized resource.');
 	const { quizId } = handlerContext;
 	const results  = [];
-	console.log(cachedResults);
+	// console.log(cachedResults);
 	await connectToDb();
 	const questions = await fetchQuestionsOfQuiz(quizId);
 	const records = await fetchRecordsByQuizId(quizId);
@@ -26,7 +26,7 @@ export default async function evaluateResultsHandler (req, res) {
 		});
 		const { answer, type } = questions.find(q => q.questionNo === questionNo);
 		results.find(r => r.userId === userId).points += evaluateResponse(response, answer, type);
-		console.log(response, answer, type, evaluateResponse(response, answer, type));
+		// console.log(response, answer, type, evaluateResponse(response, answer, type));
 	});
 	cachedResults.results = results;
 	await updateQuizRecords(results, quizId);

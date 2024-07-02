@@ -89,6 +89,8 @@ export default function LivePage () {
 		socket.on('connect', onSocketConnect);
 		socket.on('disconnect', onSocketDisconnect);
 		socket.on('timeout', timeoutSubmit);
+		socket.on('start-quiz', () => setCurrentState('instructions'));
+		socket.on('end-quiz', () => router.push('/results'));
 
 		return (
 			() => {
@@ -166,7 +168,7 @@ export default function LivePage () {
 	return (
 		<>
 			<LivePageHead />
-			<button onClick={startQuestion}> Question Time </button>
+			{/* <button onClick={startQuestion}> Question Time </button> */}
 			{ renderComponent }
 		</>
 	);
