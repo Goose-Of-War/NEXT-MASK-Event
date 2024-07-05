@@ -1,22 +1,24 @@
-import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import ForbiddenCard from "@/components/admin/ForbiddenCard";
 import MessageCard from "@/components/live/utils/MessageCard";
-import AdminContent from "@/components/admin/AdminContent";
-import UserComponent from "@/components/admin/UserComponent";
-
-import styles from '@/styles/Admin.module.css';
+import AuthForm from "@/components/AuthForm";
+import InputField from "@/components/AuthForm/InputField";
 
 export default function ListUsersPage () {
 	const [hasChecked, setHasChecked] = useState(false);
 	const [isAdmin, setIsAdmin] = useState(false);
-	const [users, setUsers] = useState([]);
+	const [user, setUser] = useState({});
+
+	const router = useRouter();
+	const _id = useRef(router.query._id);
 
 	useEffect(() => {
 		setHasChecked(localStorage.getItem('is-admin'));
 		setIsAdmin(eval(localStorage.getItem('is-admin') || 'false'));
 	});
-
+	
 	useMemo(async () => {
 		if (!hasChecked) {
 			if (!localStorage.getItem('username')) return setIsAdmin(false);
@@ -30,31 +32,32 @@ export default function ListUsersPage () {
 		} else {
 			setIsAdmin(eval(localStorage.getItem('is-admin') || 'false'));
 		}
-	}, [hasChecked]);
+	}, [hasChecked])
 
 	useMemo(async () => {
-		if (!isAdmin || users.length) return;
+		if (!isAdmin || user?._id) return;
 		try {
-			const response = eval(await (await fetch('/api/fetch-users')).json());
-			setUsers(response);
+			const response = await fetch(`/api/fetch-user?id=${_id.current}`);
+			if (response.status !== 200) throw await response.text();
+			setUser(await response.json());
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	}, [isAdmin]);
 
 	if (!isAdmin) return <ForbiddenCard />;
 
-	if (!users?.length) return <MessageCard message={'Fetching users...'} />;
+	if (!user?._id) return <MessageCard message={'Fetching user...'} />;
 
-	return (
-		<AdminContent title={`Users List: OCAQ '24`}>
-			<div id={styles['users-container']}>
-				{
-					users.map((user, index) => <UserComponent user={user} key={user.username} removeSelf={() => setUsers(
-						users.filter((_, i) => i !== index)
-					)} />)
-				}
-			</div>
-		</AdminContent>
-	);
+	return <MessageCard message={'Work in progress'} />;
+
+	// return (
+	// 	<AuthForm heading={'Edit User: ' + user?.name}>
+	// 		<InputField name='Name' val={user?.name} updateFunction={
+	// 			value => setUser({
+	// 				...user, name: value
+	// 			})
+	// 		} />
+	// 	</AuthForm>
+	// );
 }
