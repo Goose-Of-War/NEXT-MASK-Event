@@ -12,6 +12,11 @@ export default function LoginPage () {
 	const [password, setPassword] = useState('');
 	const router = useRouter();
 
+	useEffect(() => {
+		const username = localStorage.getItem('username');
+		if (username) setLoggedIn(true);
+	});
+
 	async function login () {
 		try {
 			if (!username || !password) throw 'At least fill the credentials properly...';
@@ -32,7 +37,8 @@ export default function LoginPage () {
 		}
 	}
 
-	if (loggedIn) return <MessageCard message={<>You are already logged in <Link href={'/'}>Go back</Link></>} />;
+	if (loggedIn) return <MessageCard message={<>You are already logged in. <Link href={'/'}>Go back</Link></>} />;
+
 	return (
 		<AuthForm heading={ 'Login' }>
 			<InputField name={'username'} updateFunction={val => setUsername(val)} />
